@@ -2,15 +2,15 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-public class MineTile extends Tile {
+public class BugTile extends Tile {
 
     boolean isRevealed = false;
 
-    public MineTile(int row, int col, GameWindow parent, int difficulty) {
+    public BugTile(int row, int col, GameWindow parent, int difficulty) {
         super(row, col, parent, difficulty);
     }
 
-    // render mine image
+    // render bug image
     @Override
     public void renderTile(Tile[][] tileList){
 

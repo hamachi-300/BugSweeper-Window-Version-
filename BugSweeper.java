@@ -1,19 +1,24 @@
 import java.awt.BorderLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class MineSweeper extends JFrame {
+public class BugSweeper extends JFrame {
 
     private int rowTiles;
     private int colTiles;
-    private int mines;
+    private int bugs;
 
-    public MineSweeper(){
+    public BugSweeper(){
 
-        // set default of rowTile colTiles and mines
+        // set default of rowTile colTiles and bugs
         this.rowTiles = 10;
         this.colTiles = 10;
-        this.mines = 10;
+        this.bugs = 10;
+
+        // set image icon
+        ImageIcon icon = new ImageIcon("images/bug-icon.png");
+        setIconImage(icon.getImage());
 
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,7 +26,7 @@ public class MineSweeper extends JFrame {
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
 
-        attachWindow(null, new Menu(this.rowTiles, this.colTiles, this.mines, this, null));
+        attachWindow(null, new Menu(this.rowTiles, this.colTiles, this.bugs, this, null));
 
         setVisible(true);
     }
@@ -37,10 +42,10 @@ public class MineSweeper extends JFrame {
     }
 
     // will set colTiles and rowTiles according difficulty
-    public void setDifficulty(int colTiles, int rowTiles, int mines){
+    public void setDifficulty(int colTiles, int rowTiles, int bugs){
         this.colTiles = colTiles;
         this.rowTiles = rowTiles;
-        this.mines = mines;
+        this.bugs = bugs;
     }
 }
 

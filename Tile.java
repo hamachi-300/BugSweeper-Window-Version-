@@ -48,8 +48,8 @@ abstract public class Tile extends JButton {
     public void setFlag(){
         renderFlag();
         isFlag = true;
-        // parameter 1 mean mineCounter will decease
-        parent.updateMineCounter(1);
+        // parameter 1 mean bugCounter will decease
+        parent.updateBugCounter(1);
     }
 
     // get row method
@@ -82,7 +82,7 @@ abstract public class Tile extends JButton {
         // render flag frome tile
         renderTileDefault();
         isFlag = false;
-        parent.updateMineCounter(0);
+        parent.updateBugCounter(0);
     }
 
     // render flag 

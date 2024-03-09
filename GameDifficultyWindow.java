@@ -8,11 +8,11 @@ import javax.swing.JPanel;
 
 public class GameDifficultyWindow extends PopUpWindow {
 
-    private MineSweeper parent;
+    private BugSweeper parent;
     private Menu menu;
     private JLabel difficultyLabel;
 
-    public GameDifficultyWindow(Menu menu, MineSweeper parent, JLabel difficultyLabel){
+    public GameDifficultyWindow(Menu menu, BugSweeper parent, JLabel difficultyLabel){
         this.parent = parent;
         this.menu = menu;
         this.difficultyLabel = difficultyLabel;
@@ -84,7 +84,7 @@ public class GameDifficultyWindow extends PopUpWindow {
         add(panel);
     }
 
-    // methods for set preset of every difficulty button
+    // methods for set row tile and bug of every difficulty button
     private void easyBtn(){
         parent.setDifficulty(10, 10, 5);
         menu.setDifficulty(10, 10, 5);

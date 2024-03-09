@@ -26,16 +26,16 @@ public class NormalTile extends Tile {
 
         int count = 0;
 
-        // number will generate according mine aroud tile
+        // number will generate according bug aroud tile
         for (int i = Math.max(0, getRow()-1); i <= Math.min(getRow()+1, getRowTile()-1); i++){
             for (int j = Math.max(0, getCol()-1); j <= Math.min(getCol()+1, getColTile()-1); j++){
-                if (MineTile.class.isAssignableFrom(tileList[i][j].getClass())){
+                if (BugTile.class.isAssignableFrom(tileList[i][j].getClass())){
                     count++;
                 }
             }
         }
 
-        // if count 0 (no mine nearby) will reveal all tile around 
+        // if count 0 (no bug nearby) will reveal all tile around 
         // and auto call renderTile method again for check other tile around
         setBackground(new Color(color2R, color2G, color2B));
         setEnabled(false);
@@ -44,7 +44,7 @@ public class NormalTile extends Tile {
         if (count == 0){
             for (int i = Math.max(0, getRow()-1); i <= Math.min(getRow()+1, getRowTile()-1); i++){
                 for (int j = Math.max(0, getCol()-1); j <= Math.min(getCol()+1, getColTile()-1); j++){
-                    if (!tileList[i][j].isRevealed() && !MineTile.class.isAssignableFrom(tileList[i][j].getClass()) && !tileList[i][j].isFlag()){
+                    if (!tileList[i][j].isRevealed() && !BugTile.class.isAssignableFrom(tileList[i][j].getClass()) && !tileList[i][j].isFlag()){
                         tileList[i][j].renderTile(tileList);
                     }
                 }

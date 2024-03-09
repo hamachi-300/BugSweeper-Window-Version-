@@ -27,23 +27,23 @@ import java.util.Random;
 public class GameWindow extends Window {
     private int rowTiles;
     private int colTiles;
-    private int mines;
-    private int mineCount;
+    private int bugs;
+    private int bugCount;
     private int difficulty;
     private int fleshTime = 0;
     private boolean gameOver = false;
     protected boolean flagMode = true;
 
     protected Timer timer;
-    private JLabel mineCounter;
+    private JLabel bugCounter;
     private Tile[][] tileList;
     Random rand = new Random();
 
-    public GameWindow(int rowTiles, int colTiles, int mines, MineSweeper parent, int difficulty) {
+    public GameWindow(int rowTiles, int colTiles, int bugs, BugSweeper parent, int difficulty) {
         this.rowTiles = rowTiles;
         this.colTiles = colTiles;
-        this.mines = mines;
-        this.mineCount = mines;
+        this.bugs = bugs;
+        this.bugCount = bugs;
         this.difficulty = difficulty;
         tileList = new Tile[rowTiles][colTiles];
 
@@ -67,20 +67,20 @@ public class GameWindow extends Window {
         JPanel setFlagPanel = new JPanel(new BorderLayout());
         JPanel board = new JPanel(new GridLayout(rowTiles, colTiles, 0, 0));
 
-        // create mineCounter label
-        mineCounter = new JLabel(String.format("Bug Remain : %d", mines));
+        // create bugCounter label
+        bugCounter = new JLabel(String.format("Bug Remain : %d", bugs));
         JLabel timeCounter = new JLabel("Time : 00:00:00");
         JButton settingBtn = new JButton();
-        JButton mineBtn = new JButton();
+        JButton bugBtn = new JButton();
         JButton flagBtn = new JButton();
 
         // set icon
         settingBtn.setIcon(setting);
-        mineBtn.setIcon(bug02);
+        bugBtn.setIcon(bug02);
         flagBtn.setIcon(glasses);
 
         // set Monospaced font
-        mineCounter.setFont(doubleBigFont);
+        bugCounter.setFont(doubleBigFont);
         timeCounter.setFont(doubleBigFont);
 
         // create timer when game start
@@ -91,26 +91,26 @@ public class GameWindow extends Window {
             }
         });
 
-        // switch bettween flag mode and mine mode
-        flagMode(flagBtn, mineBtn);
-        flagBtn.addActionListener(e -> flagMode(flagBtn, mineBtn));
-        mineBtn.addActionListener(e -> flagMode(flagBtn, mineBtn));
-        settingBtn.addActionListener(e -> new SettingWindow(rowTiles, colTiles, mines, parent, this));
+        // switch bettween flag mode and bug mode
+        flagMode(flagBtn, bugBtn);
+        flagBtn.addActionListener(e -> flagMode(flagBtn, bugBtn));
+        bugBtn.addActionListener(e -> flagMode(flagBtn, bugBtn));
+        settingBtn.addActionListener(e -> new SettingWindow(rowTiles, colTiles, bugs, parent, this));
         // start timer
         timer.start();
 
         // add all component
-        setFlagPanel.add(mineBtn, BorderLayout.WEST);
+        setFlagPanel.add(bugBtn, BorderLayout.WEST);
         setFlagPanel.add(flagBtn, BorderLayout.EAST);
 
-        header.add(mineCounter, BorderLayout.EAST);
+        header.add(bugCounter, BorderLayout.EAST);
         header.add(timeCounter, BorderLayout.WEST);
         footer.add(setFlagPanel, BorderLayout.EAST);
         footer.add(settingBtn, BorderLayout.WEST);
 
-        // set tile and mine
+        // set tile and bug
         placeTiles(tileList, parent);
-        placeMine(tileList, parent);
+        placeBug(tileList, parent);
 
         GameWindow gameWindow = this;
         // loop for add all Tile and add MouseListener
@@ -143,11 +143,11 @@ public class GameWindow extends Window {
                             } else {
                                 // left click mouse will reveal tile
                                 if (e.getButton() == MouseEvent.BUTTON1 && !tile.isFlag()){
-                                    // expose all mine if tile is mine
-                                    if (MineTile.class.isAssignableFrom(tile.getClass())){
+                                    // expose all bug if tile is bug
+                                    if (BugTile.class.isAssignableFrom(tile.getClass())){
                                         for (Tile[] tileRow : tileList){
                                             for (Tile tile_c : tileRow) {
-                                                if (MineTile.class.isAssignableFrom(tile_c.getClass())){
+                                                if (BugTile.class.isAssignableFrom(tile_c.getClass())){
                                                     tile_c.revealTile(tileList);
                                                 }
                                             }
@@ -169,11 +169,11 @@ public class GameWindow extends Window {
                                         }
     
                                         // check game is cleared
-                                        if ((rowTiles * colTiles) - tileCount - mines == 0) {
+                                        if ((rowTiles * colTiles) - tileCount - bugs == 0) {
                                             // call gameClearWindow if game was cleared
                                             timer.stop();
                                             playSound("sounds/win8bit.wav");
-                                            new MineClearedWindow(rowTiles, colTiles, mines, parent, gameWindow, difficulty, timeCounter.getText());
+                                            new BugClearedWindow(rowTiles, colTiles, bugs, parent, gameWindow, difficulty, timeCounter.getText());
                                         }
                                     }
                                 }
@@ -208,13 +208,13 @@ public class GameWindow extends Window {
         footer.setBackground(new Color(color1R, color1G, color1B));
         setFlagPanel.setBackground(new Color(color1R, color1G, color1B));
         timeCounter.setForeground(new Color(color4R, color4G, color4B));
-        mineCounter.setForeground(new Color(color4R, color4G, color4B));
+        bugCounter.setForeground(new Color(color4R, color4G, color4B));
 
         settingBtn.setBackground(new Color(color1R, color1G, color1B));
         settingBtn.setFocusable(false);
 
-        mineBtn.setBackground(new Color(color2R, color2G, color2B));
-        mineBtn.setFocusable(false);
+        bugBtn.setBackground(new Color(color2R, color2G, color2B));
+        bugBtn.setFocusable(false);
 
         flagBtn.setBackground(new Color(color1R, color1G, color1B));
         flagBtn.setFocusable(false);
@@ -251,12 +251,12 @@ public class GameWindow extends Window {
     }
     
     // delay 1 second before create GameOverWindow
-    private void startOverWindow(MineSweeper parent){
+    private void startOverWindow(BugSweeper parent){
         GameWindow game = this;
         Timer gameOverDelay = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // call gameOverWindow
-                new GameOverWindow(rowTiles, colTiles, mines, parent, game, difficulty);
+                new GameOverWindow(rowTiles, colTiles, bugs, parent, game, difficulty);
             }
         });
         gameOverDelay.setRepeats(false);
@@ -265,25 +265,25 @@ public class GameWindow extends Window {
     }
 
     // place tiles method
-    private void placeTiles(Tile[][] tileList, MineSweeper parent){
+    private void placeTiles(Tile[][] tileList, BugSweeper parent){
         for (int i = 0; i < rowTiles; i++){
             for (int j = 0; j < colTiles; j++){
-                // check mine tile
+                // check bug tile
                 Tile tile = new NormalTile(i, j, rowTiles, colTiles, this, difficulty);
                 tileList[i][j] = tile;
             }
         }
     }
 
-    // place mines method
-    private void placeMine(Tile[][] tileList, MineSweeper parent){
+    // place bugs method
+    private void placeBug(Tile[][] tileList, BugSweeper parent){
 
-        for (int i = 0; i < mines; i++){
+        for (int i = 0; i < bugs; i++){
             int row = rand.nextInt(rowTiles);
             int col = rand.nextInt(colTiles);
 
-            if (!MineTile.class.isAssignableFrom(tileList[row][col].getClass())){
-                tileList[row][col] = new MineTile(row, col, this, difficulty);
+            if (!BugTile.class.isAssignableFrom(tileList[row][col].getClass())){
+                tileList[row][col] = new BugTile(row, col, this, difficulty);
             } else {
                 i--;
             }
@@ -293,36 +293,36 @@ public class GameWindow extends Window {
     // method handle flagMode
     // if flagMode is true it will set false
     // if flagMode is false it will set true
-    public void flagMode(JButton flagBtn, JButton mineBtn){
+    public void flagMode(JButton flagBtn, JButton bugBtn){
         if (flagMode == false){
-            mineBtn.setEnabled(true);
+            bugBtn.setEnabled(true);
             flagBtn.setEnabled(false);
             flagBtn.setBackground(new Color(color2R, color2G, color2B));
-            mineBtn.setBackground(new Color(color1R, color1G, color1B));
+            bugBtn.setBackground(new Color(color1R, color1G, color1B));
             flagMode = true;
         } else {
-            mineBtn.setEnabled(false);
+            bugBtn.setEnabled(false);
             flagBtn.setEnabled(true);
-            mineBtn.setBackground(new Color(color2R, color2G, color2B));
+            bugBtn.setBackground(new Color(color2R, color2G, color2B));
             flagBtn.setBackground(new Color(color1R, color1G, color1B));
             flagMode = false;
         }
     }
 
-    // method will update mineCounter
-    // when num is 0 mean mineCount will increase
-    public void updateMineCounter(int num){
+    // method will update bugCounter
+    // when num is 0 mean bugCount will increase
+    public void updateBugCounter(int num){
         if (num == 0) {
-            mineCount+=1;
-            if (mineCount >= 0){
-                mineCounter.setText(String.format("Bug Remain : %d", mineCount));
+            bugCount+=1;
+            if (bugCount >= 0){
+                bugCounter.setText(String.format("Bug Remain : %d", bugCount));
             }
         }
 
         if  (num == 1) {
-            mineCount-=1;
-            if (mineCount >= 0){
-                mineCounter.setText(String.format("Bug Remain : %d", mineCount));
+            bugCount-=1;
+            if (bugCount >= 0){
+                bugCounter.setText(String.format("Bug Remain : %d", bugCount));
             }
         }
     }

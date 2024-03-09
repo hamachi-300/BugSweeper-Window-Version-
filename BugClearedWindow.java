@@ -16,19 +16,19 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-class MineClearedWindow extends Window {
+class BugClearedWindow extends Window {
 
-    private MineSweeper parent;
+    private BugSweeper parent;
     private int rowTiles;
     private int colTiles;
-    private int mines;
+    private int bugs;
     private int difficulty;
 
-    public MineClearedWindow(int rowTiles, int colTiles, int mines, MineSweeper parent, GameWindow game, int difficulty, String time){
+    public BugClearedWindow(int rowTiles, int colTiles, int bugs, BugSweeper parent, GameWindow game, int difficulty, String time){
         this.parent = parent;
         this.rowTiles = rowTiles;
         this.colTiles = colTiles;
-        this.mines = mines;
+        this.bugs = bugs;
         this.difficulty = difficulty;
 
         saveHistory(time.substring(7), difficulty);
@@ -80,13 +80,13 @@ class MineClearedWindow extends Window {
     public void setLabel(Window window){
         JPanel gameClearedPanel = new JPanel(new BorderLayout());
         gameClearedPanel.setLayout(new BoxLayout(gameClearedPanel, BoxLayout.Y_AXIS));
-        JLabel mineClearedLabel = new JLabel("Mine Cleared");
+        JLabel bugClearedLabel = new JLabel("Bug Cleared");
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));;
         JButton newGameButton = new JButton("New Game");
         JButton exitButton = new JButton("     Exit     ");
 
-        MineClearedWindow mineClearedWindow = this;
+        BugClearedWindow bugClearedWindow = this;
 
         exitButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -98,7 +98,7 @@ class MineClearedWindow extends Window {
         newGameButton.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e){
-                parent.attachWindow(mineClearedWindow, new GameWindow(rowTiles, colTiles, mines, parent, difficulty));
+                parent.attachWindow(bugClearedWindow, new GameWindow(rowTiles, colTiles, bugs, parent, difficulty));
             }
         });
 
@@ -106,10 +106,10 @@ class MineClearedWindow extends Window {
         buttonPanel.add(Box.createHorizontalStrut(30));
         buttonPanel.add(exitButton);
 
-        mineClearedLabel.setAlignmentX(CENTER_ALIGNMENT);
+        bugClearedLabel.setAlignmentX(CENTER_ALIGNMENT);
         buttonPanel.setAlignmentX(CENTER_ALIGNMENT);
 
-        gameClearedPanel.add(mineClearedLabel, BorderLayout.CENTER);
+        gameClearedPanel.add(bugClearedLabel, BorderLayout.CENTER);
         gameClearedPanel.add(Box.createVerticalStrut(20));
         gameClearedPanel.add(buttonPanel, BorderLayout.SOUTH);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -118,8 +118,8 @@ class MineClearedWindow extends Window {
         // decoration
         gameClearedPanel.setBackground(new Color(color1R, color1G, color1B));
         buttonPanel.setBackground(new Color(color1R, color1G, color1B));
-        mineClearedLabel.setFont(doubleBigFont);
-        mineClearedLabel.setForeground(new Color(color4R, color4G, color4B));
+        bugClearedLabel.setFont(doubleBigFont);
+        bugClearedLabel.setForeground(new Color(color4R, color4G, color4B));
 
         newGameButton.setForeground(new Color(color1R, color1G, color1B));
         newGameButton.setBackground(new Color(color4R, color4G, color4B));

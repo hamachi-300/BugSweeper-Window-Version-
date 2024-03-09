@@ -8,18 +8,18 @@ import javax.swing.JPanel;
 
 public class SettingWindow extends PopUpWindow{
 
-    private MineSweeper parent;
+    private BugSweeper parent;
     private GameWindow game;
     private int rowTiles;
     private int colTiles;
-    private int mines;
+    private int bugs;
 
-    public SettingWindow(int rowTiles, int colTiles, int mines, MineSweeper parent, GameWindow game) {
+    public SettingWindow(int rowTiles, int colTiles, int bugs, BugSweeper parent, GameWindow game) {
         this.parent = parent;
         this.game = game;
         this.rowTiles = rowTiles;
         this.colTiles = colTiles;
-        this.mines = mines;
+        this.bugs = bugs;
 
         setSize(200, 300);
         setLocationRelativeTo(null);
@@ -87,7 +87,7 @@ public class SettingWindow extends PopUpWindow{
 
     // when click menuBtn will change to menu window and dispose setting window
     private void menuBtn(){
-        new Menu(rowTiles, colTiles, mines, parent, game);
+        new Menu(rowTiles, colTiles, bugs, parent, game);
         dispose();
     }
 
